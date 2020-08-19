@@ -7,6 +7,6 @@ router.register("post", views.PostViewSet)
 # router.urls <- url pattern list
 
 urlpatterns = [
-    path("public/", views.public_post_list),
+    # path("public/", views.public_post_list),
     path("", include(router.urls)),
 ]
