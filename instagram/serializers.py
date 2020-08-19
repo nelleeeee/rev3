@@ -21,4 +21,5 @@ class PostSerializer(serializers.ModelSerializer):
             "message",
             "created_at",
             "updated_at",
+            "ip",
         ]
