@@ -5,7 +5,7 @@ from .models import Post
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework.renderers import TemplateHTMLRenderer
 
 # 리스트 api뷰 이용 (클래스기반?) generics?
 # class PublicPostListAPIView(generics.ListCreateAPIView):
@@ -48,3 +48,13 @@ class PostViewSet(ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+
+# RetrieveAPIView로 html랜더링 하기
+class PostDetailAPIView(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "instagram/post_detail.html"
+
+    def get(self, request, *args, **kwargs):
+        post = self.get_object()
+        return Response({"post": post})
