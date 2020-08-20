@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAuthorOrReadonly
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 # 리스트 api뷰 이용 (클래스기반?) generics?
 # class PublicPostListAPIView(generics.ListCreateAPIView):
@@ -33,6 +36,9 @@ from rest_framework.renderers import TemplateHTMLRenderer
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_class = [IsAuthenticated, IsAuthorOrReadonly]
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fileds = ["message"]
 
     # perform_create로 ip저장 구현
     def perform_create(self, serializer):
